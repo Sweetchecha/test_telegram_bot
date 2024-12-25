@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: telegram_bot
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  bot:
+    build: .
+    environment:
+      - BOT_TOKEN=7929733389:AAHLVW4QeyZ-Hnd7mNAtTRTbwf3lFsclDzk
+      - DATABASE_URL=postgresql://postgres:password@db:5432/telegram_bot
+    depends_on:
+      - db
+
+volumes:
+  db_data:
